@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: logstash
+  namespace: logging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: logstash
+  template:
+    metadata:
+      labels:
+        app: logstash
+    spec:
+      containers:
+      - name: logstash
+        image: myFlinkContainerRegistry.azurecr.io/logstash:7.4.1 
+        ports:
+        - containerPort: 5044
+        volumeMounts:
+          - name: log-manual-pipeline
+            mountPath: /usr/share/logstash/pipeline/
+      volumes:
+      - name: log-manual-pipeline
+        configMap:
+          name: log-manual-pipeline
+          items:
+            - key: logstash.conf
+              path: logstash.conf
