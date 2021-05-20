@@ -1,7 +1,0 @@
-filebeat.inputs:
- - type: log
-   paths:
-    - /logs/camunda/CamundaApplication.log 
-output:
-  logstash:
-    hosts: ['10.10.5.102:5044']
